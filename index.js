@@ -15,7 +15,13 @@ http.createServer((req, res) => {
     res.write('Hello, World!');
     res.end(); 
   }
-  if(req.url==='/products' && req.method === 'GET'){
+  else if(req.url==='/' && req.method === 'POST'){
+    res.writeHead(200 , { 'Content-Type': 'text/plain'});
+    res.write('post');
+    res.end(); 
+    console.log('post')
+  }
+  else if(req.url==='/products' && req.method === 'GET'){
     try {
      res.writeHead(200 , { 'Content-Type': 'application/json'});
      res.write(JSON.stringify(products));
