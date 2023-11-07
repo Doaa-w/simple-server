@@ -26,6 +26,18 @@ http.createServer((req, res) => {
       res.end(); 
     }
      } 
+     else if(req.url==='/products' && req.method === 'POST'){
+      try {
+       res.writeHead(200 , { 'Content-Type': 'text/plain'});
+       res.write('new product created');
+       res.end();
+      } catch (error) {
+        res.writeHead(200 , { 'Content-Type': 'text/plain'});
+        res.write('server error');
+        res.end(); 
+      }
+       } 
+       
     
   })
   .listen(PORT);
