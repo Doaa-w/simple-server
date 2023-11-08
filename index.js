@@ -1,4 +1,5 @@
 const http = require("http");
+const { parse } = require("querystring");
 const PORT = '8080';
 
 let products = [
@@ -15,37 +16,47 @@ http.createServer((req, res) => {
     res.write('Hello, World!');
     res.end(); 
   }
-  else if(req.url==='/' && req.method === 'POST'){
-    res.writeHead(200 , { 'Content-Type': 'text/plain'});
-    res.write('post');
-    res.end(); 
-    console.log('post')
-  }
   else if(req.url==='/products' && req.method === 'GET'){
     try {
      res.writeHead(200 , { 'Content-Type': 'application/json'});
      res.write(JSON.stringify(products));
      res.end();
     } catch (error) {
-      res.writeHead(200 , { 'Content-Type': 'text/plain'});
+      res.writeHead(500 , { 'Content-Type': 'text/plain'});
       res.write('server error');
       res.end(); 
     }
      } 
      else if(req.url==='/products' && req.method === 'POST'){
       try {
-       res.writeHead(200 , { 'Content-Type': 'text/plain'});
-       res.write('new product created');
-       res.end();
+        let body ='';
+        req.on('end',(chunk)=>{
+          body=body + chunk;
+        });
+        req.on('end',()=>{
+        const data =parse(body);
+        const newProduct={
+          id : new Date().getTime().toString,
+          title : String(data.title),
+          price : Number(data.price),
+          
+        }
+        console.log(newProduct),
+        products.push(newProduct);
+      
+      res.writeHead(201 , { 'Content-Type': 'application/json'});
+      res.write(JSON.stringify(products));
+      res.end();
+    })
       } catch (error) {
-        res.writeHead(200 , { 'Content-Type': 'text/plain'});
+        res.writeHead(500 , { 'Content-Type': 'text/plain'});
         res.write('server error');
         res.end(); 
       }
        } 
        
     
-  })
+  }) 
   .listen(PORT);
 
 console.log(`Server running at http://127.0.0.1:${PORT}/`);
