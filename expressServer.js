@@ -8,7 +8,7 @@ app.get('/', (req , res)=>{
 res.status(200).send('Hello, World!')
 })
 res.status(500).send({
-    sucsess: true,
+    sucsess: false,
     message:'server error'
 }) 
 
@@ -16,7 +16,7 @@ app.post('/', (req,res) =>{
     res.status(200).send('Creat a product')
 })
 res.status(500).send({
-    sucsess: true,
+    sucsess: false,
     message:'server error'
 }) 
 
@@ -28,7 +28,7 @@ app.get('/products', async(req , res)=>{
     })
     
     res.status(500).send({
-        sucsess: true,
+        sucsess: false,
         message:'server error'
     })
     return;
@@ -46,7 +46,7 @@ app.post('/products', (req,res) =>{
         payload: newProduct, 
     }) 
     res.status(500).send({
-        sucsess: true,
+        sucsess: false,
         message:'server error'
     })
     return;
