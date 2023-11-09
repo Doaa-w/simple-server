@@ -3,15 +3,14 @@ const fs = require("fs/promises");
 const { parse } = require("querystring");
 const PORT = '8080';
 
-let products = [
+// let products = [
  
-{id: '1' , title: 'laptop' , price: 750}, 
-{id: '2' , title: 'smartphone' , price: 699}, 
-{id: '3' , title: 'tablet' , price: 600}, 
+// {id: '1' , title: 'laptop' , price: 750}, 
+// {id: '2' , title: 'smartphone' , price: 699}, 
+// {id: '3' , title: 'tablet' , price: 600}, 
 
-]
+// ]
  
-   
 
 http.createServer(async(req, res) => {
 
@@ -29,7 +28,7 @@ http.createServer(async(req, res) => {
   }
   else if(req.url==='/products' && req.method === 'GET'){
     try {
-      const theProducts = await fs.readFile('product.json' , 'utf-8');
+    const theProducts = await fs.readFile('product.json' , 'utf-8');
      res.writeHead(200 , { 'Content-Type': 'application/json'});
      res.write(JSON.stringify(products));
      res.end();
