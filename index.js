@@ -28,7 +28,7 @@ http.createServer(async(req, res) => {
   }
   else if(req.url==='/products' && req.method === 'GET'){
     try {
-    const theProducts = await fs.readFile('product.json' , 'utf-8');
+    const products = await fs.readFile('product.json' , 'utf-8');
      res.writeHead(200 , { 'Content-Type': 'application/json'});
      res.write(JSON.stringify(products));
      res.end();
