@@ -78,13 +78,7 @@ app.get('/products', async(req , res)=>{
     return;
     })
 
-app.post('/products', async(req,res) =>{
-    if(!req.body.title){
-        return res.status(404).json({message: 'title is missing'})
-    }
-    if(!req.body.price){
-        return res.status(404).json({message: 'price is missing'})
-    }
+app.post('/products', async(req,res) =>{ 
     const Products = JSON.parse(await fs.readFile('product.json' , 'utf-8'));
     try {
     const {title , price} = req.body;
