@@ -8,9 +8,13 @@ let products = [
 {id: '3' , title: 'tablet' , price: 600}, 
 
 ]
- 
+
 const PORT = '8080';
 const app = express();
+
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+
 
 app.get('/', (req , res)=>{
     try {
@@ -28,12 +32,10 @@ app.post('/', (req,res) =>{
     } catch (error) {
         res.status(500).send('server error')
     }
-   
 })
 
-
 app.get('/products', async(req , res)=>{
-    const theProducts = JSON.parse(await fs.readFile('product.json' , 'utf-8'));
+    const Products = JSON.parse(await fs.readFile('product.json' , 'utf-8'));
     res.status(200).send({
         sucsess: true,
         payload: products,
@@ -41,13 +43,21 @@ app.get('/products', async(req , res)=>{
     
     return;
     })
-    
-app.post('/products', (req,res) =>{
+
+app.post('/products', async(req,res) =>{
+    if(!req.body.title){
+        return res.status(404).json({message: 'title is missing'})
+    }
+    if(!req.body.price){
+        return res.status(404).json({message: 'price is missing'})
+    }
+    const Products = JSON.parse(await fs.readFile('product.json' , 'utf-8'));
     try {
+        const {title , price} = req.body;
      const newProduct= {
         id: new Date().getTime().toString,
-        title: req.body.title ,
-        price: req.body.price ,
+        title: title ,
+        price: price ,
     }
     products.push(newProduct);
     res.status(201).send({
@@ -61,7 +71,6 @@ app.post('/products', (req,res) =>{
         })
     }
     
-   
     return;
 })
 
