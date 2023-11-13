@@ -79,6 +79,12 @@ app.get('/products', async(req , res)=>{
     })
 
 app.post('/products', async(req,res) =>{ 
+    if(!req.body.title){
+        return res.status(404).json({message: 'title is missing'})
+    }
+    if(!req.body.price){
+        return res.status(404).json({message: 'price is missing'})
+    }
     const Products = JSON.parse(await fs.readFile('product.json' , 'utf-8'));
     try {
     const {title , price} = req.body;
@@ -106,8 +112,8 @@ app.put('/products/:id', async(req,res) =>{
 try {
     const id = req.params.id;
     const {title , price} = req.body;
-    const indexProduct = products.find((product)=> product.id === id);
-    if(index == -1){
+    const indexProduct = products.findIndex((product)=> product.id === id);
+    if(indexProduct == -1){
         const error = new Error (`product with ${id} is not found`)
         error.status =404
         throw error
