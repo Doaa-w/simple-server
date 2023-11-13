@@ -59,6 +59,10 @@ app.delete('/products/:id' , (req , res )=>{
         }
         const filteredProducts=products.filter((product)=> product.id !==id)
         products = filteredProducts
+        res.status(200).send({
+            sucsess: true,
+            payload: filteredProducts, 
+        })
     } catch (error) {
         res.status(500).send('server error')
     }
